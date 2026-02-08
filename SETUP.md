@@ -5,34 +5,31 @@ Install the skills, agents, and settings from this starter repo into your own pr
 ## Quick Start (Script)
 
 ```bash
-# Clone the starter repo (if you haven't)
-git clone https://github.com/TheCactusBlue/agentic-coding-starter.git
-cd agentic-coding-starter
+# Download and run — no clone needed
+curl -fsSL https://raw.githubusercontent.com/TheCactusBlue/agentic-coding-starter/main/setup.sh -o setup.sh
+chmod +x setup.sh
 
-# Install into your project
+# Install into your project (defaults to current directory)
 ./setup.sh --target ~/Projects/my-app
+
+# Or install into the current directory
+./setup.sh
 
 # Preview changes first
 ./setup.sh --target ~/Projects/my-app --dry-run
 ```
 
-Requires [`jq`](https://jqlang.github.io/jq/download/) for merging `settings.json`.
+The script clones the repo into a temp directory, copies the configs, and cleans up automatically.
+
+Requires [`git`](https://git-scm.com/) and [`jq`](https://jqlang.github.io/jq/download/).
 
 ## Claude-Assisted Setup
 
-If you'd rather have Claude handle the setup interactively, paste this prompt into a Claude Code session running in your **target project**:
+Paste this prompt into a Claude Code session running in your **target project**:
 
-> I want to install the agentic-coding-starter configs into this project. The starter repo is cloned at `<path-to-starter-repo>`.
->
-> Please:
-> 1. Read the starter repo's `.claude/` directory (skills, agents, settings.json)
-> 2. Check what `.claude/` configs already exist in this project
-> 3. Copy all skills and agents into this project's `.claude/`
-> 4. Merge `settings.json` — combine the `permissions.allow` arrays (deduplicated) and merge `env`/`sandbox` objects, keeping my existing overrides
-> 5. Add `.brainstorm/` to `.gitignore` if it's not already there
-> 6. Tell me what was added or changed
-
-Replace `<path-to-starter-repo>` with the actual path where you cloned this repo.
+> Install agentic-coding-starter into this project. Download setup.sh from
+> https://raw.githubusercontent.com/TheCactusBlue/agentic-coding-starter/main/setup.sh
+> and run it with --target set to the current directory.
 
 ## What Gets Installed
 

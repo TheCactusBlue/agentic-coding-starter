@@ -2,11 +2,10 @@
 set -euo pipefail
 
 # ── Agentic Coding Starter — Setup Script ──
-# Copies .claude/ configs (skills, agents, settings) into a target project.
-# Merges settings.json intelligently instead of overwriting.
+# Clones the starter repo, copies .claude/ configs into the target project,
+# merges settings.json intelligently, then cleans up after itself.
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-SOURCE_CLAUDE="$SCRIPT_DIR/.claude"
+REPO_URL="https://github.com/TheCactusBlue/agentic-coding-starter.git"
 
 # ── Colors ──
 RED='\033[0;31m'
@@ -21,16 +20,18 @@ error() { echo -e "${RED}[x]${NC} $1" >&2; }
 
 usage() {
     cat <<EOF
-Usage: $(basename "$0") --target <path>
+Usage: $(basename "$0") [--target <path>] [--dry-run]
 
 Install .claude/ configs (skills, agents, settings) into a project.
+Clones the starter repo automatically — no manual clone needed.
 
 Options:
-  --target <path>   Project directory to install into (required)
+  --target <path>   Project directory to install into (default: current directory)
   --dry-run         Show what would be done without making changes
   --help            Show this help message
 
 Examples:
+  $(basename "$0")
   $(basename "$0") --target ~/Projects/my-app
   $(basename "$0") --target . --dry-run
 EOF
@@ -50,9 +51,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 if [[ -z "$TARGET" ]]; then
-    error "Missing required --target argument"
-    usage
-    exit 1
+    TARGET="$(pwd)"
 fi
 
 TARGET="$(cd "$TARGET" 2>/dev/null && pwd)" || {
@@ -60,12 +59,12 @@ TARGET="$(cd "$TARGET" 2>/dev/null && pwd)" || {
     exit 1
 }
 
-if [[ "$TARGET" == "$SCRIPT_DIR" ]]; then
-    error "Target cannot be the starter repo itself"
+# ── Check dependencies ──
+if ! command -v git &>/dev/null; then
+    error "git is required. Please install git first."
     exit 1
 fi
 
-# ── Check dependencies ──
 if ! command -v jq &>/dev/null; then
     error "jq is required for settings.json merging. Install it:"
     echo "  macOS:  brew install jq"
@@ -74,11 +73,19 @@ if ! command -v jq &>/dev/null; then
     exit 1
 fi
 
+# ── Clone starter repo into a temp directory ──
+TMPDIR="$(mktemp -d)"
+cleanup() { rm -rf "$TMPDIR"; }
+trap cleanup EXIT
+
+info "Cloning agentic-coding-starter..."
+git clone --depth 1 --quiet "$REPO_URL" "$TMPDIR/starter"
+
+SOURCE_CLAUDE="$TMPDIR/starter/.claude"
 TARGET_CLAUDE="$TARGET/.claude"
 
 echo ""
 echo -e "${BOLD}Agentic Coding Starter — Setup${NC}"
-echo -e "Source: ${SCRIPT_DIR}"
 echo -e "Target: ${TARGET}"
 echo ""
 
