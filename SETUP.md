@@ -34,7 +34,7 @@ Re-run the same command to update to the latest version:
 ./setup.sh --target ~/Projects/my-app --domains typescript,python
 ```
 
-The script tracks the installed version in `.claude/.starter-version`. On re-run it will:
+The script tracks the installed version in `.claude/.ae-version`. On re-run it will:
 
 - **Skip if already up to date** — if the installed SHA matches the latest upstream commit, exit early
 - **Show what changed** — new, updated, and unchanged files are counted separately
@@ -56,11 +56,11 @@ Paste this prompt into a Claude Code session running in your **target project**:
 
 ## What Gets Installed
 
-| Component | Count | Description |
-|-----------|-------|-------------|
-| Skills | 13 | `/brainstorm`, `/commit`, `/create-pr`, `/review`, `/test`, `/refactor`, `/learn`, `/start`, `/handoff`, plus `domain:typescript`, `domain:python`, `domain:rust` |
-| Agents | 2 | `researcher` (read-only codebase/web research), `test-runner` (test execution) |
-| Settings | 1 | Sandbox config, pre-approved permissions, agent teams flag |
+| Component | Count | Description                                                                                                                                                       |
+| --------- | ----- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Skills    | 13    | `/brainstorm`, `/commit`, `/create-pr`, `/review`, `/test`, `/refactor`, `/learn`, `/start`, `/handoff`, plus `domain:typescript`, `domain:python`, `domain:rust` |
+| Agents    | 2     | `researcher` (read-only codebase/web research), `test-runner` (test execution)                                                                                    |
+| Settings  | 1     | Sandbox config, pre-approved permissions, agent teams flag                                                                                                        |
 
 ## How Merging Works
 

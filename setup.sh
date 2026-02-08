@@ -101,7 +101,7 @@ git clone --depth 1 --quiet "$REPO_URL" "$TMPDIR/starter"
 
 SOURCE_CLAUDE="$TMPDIR/starter/.claude"
 TARGET_CLAUDE="$TARGET/.claude"
-VERSION_FILE="$TARGET_CLAUDE/.starter-version"
+VERSION_FILE="$TARGET_CLAUDE/.ae-version"
 HEAD_SHA="$(git -C "$TMPDIR/starter" rev-parse HEAD)"
 
 # ── Detect install vs update mode ──
