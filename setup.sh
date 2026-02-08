@@ -20,35 +20,48 @@ error() { echo -e "${RED}[x]${NC} $1" >&2; }
 
 usage() {
     cat <<EOF
-Usage: $(basename "$0") [--target <path>] [--dry-run]
+Usage: $(basename "$0") [--target <path>] [--domains <list>] [--dry-run]
 
 Install .claude/ configs (skills, agents, settings) into a project.
 Clones the starter repo automatically — no manual clone needed.
 
 Options:
-  --target <path>   Project directory to install into (default: current directory)
-  --dry-run         Show what would be done without making changes
-  --help            Show this help message
+  --target <path>    Project directory to install into (default: current directory)
+  --domains <list>   Comma-separated languages to install domain skills for
+                     (e.g. typescript,python). Omit to skip all domain skills.
+  --dry-run          Show what would be done without making changes
+  --help             Show this help message
 
 Examples:
-  $(basename "$0")
-  $(basename "$0") --target ~/Projects/my-app
+  $(basename "$0") --target ~/Projects/my-app --domains typescript,python
+  $(basename "$0") --domains rust
   $(basename "$0") --target . --dry-run
 EOF
 }
 
 # ── Parse args ──
 TARGET=""
+DOMAINS=""
 DRY_RUN=false
 
 while [[ $# -gt 0 ]]; do
     case $1 in
         --target)  TARGET="$2"; shift 2 ;;
+        --domains) DOMAINS="$2"; shift 2 ;;
         --dry-run) DRY_RUN=true; shift ;;
         --help)    usage; exit 0 ;;
         *)         error "Unknown option: $1"; usage; exit 1 ;;
     esac
 done
+
+# Build an associative array of requested domains for fast lookup
+declare -A DOMAIN_SET
+if [[ -n "$DOMAINS" ]]; then
+    IFS=',' read -ra _domains <<< "$DOMAINS"
+    for d in "${_domains[@]}"; do
+        DOMAIN_SET["$d"]=1
+    done
+fi
 
 if [[ -z "$TARGET" ]]; then
     TARGET="$(pwd)"
@@ -94,8 +107,20 @@ info "Installing skills..."
 added_skills=0
 updated_skills=0
 
+skipped_domains=0
+
 for skill_dir in "$SOURCE_CLAUDE"/skills/*/; do
     skill_name="$(basename "$skill_dir")"
+
+    # Filter domain skills: only install if explicitly requested via --domains
+    if [[ "$skill_name" == domain:* ]]; then
+        lang="${skill_name#domain:}"
+        if [[ -z "${DOMAIN_SET[$lang]+x}" ]]; then
+            skipped_domains=$((skipped_domains + 1))
+            continue
+        fi
+    fi
+
     dest="$TARGET_CLAUDE/skills/$skill_name"
 
     if [[ -d "$dest" ]]; then
@@ -116,6 +141,7 @@ done
 
 [[ $added_skills -gt 0 ]] && info "  Added $added_skills new skill(s)" || true
 [[ $updated_skills -gt 0 ]] && info "  Updated $updated_skills existing skill(s)" || true
+[[ $skipped_domains -gt 0 ]] && warn "  Skipped $skipped_domains domain skill(s) (not in --domains list)" || true
 
 # ── 2. Copy agents ──
 info "Installing agents..."

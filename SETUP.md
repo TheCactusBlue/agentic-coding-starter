@@ -9,14 +9,17 @@ Install the skills, agents, and settings from this starter repo into your own pr
 curl -fsSL https://raw.githubusercontent.com/TheCactusBlue/agentic-coding-starter/main/setup.sh -o setup.sh
 chmod +x setup.sh
 
-# Install into your project (defaults to current directory)
+# Install into your project, specifying which language domain skills to include
+./setup.sh --target ~/Projects/my-app --domains typescript,python
+
+# Only install domain skills for languages in your codebase
+./setup.sh --domains rust
+
+# Omit --domains to skip all domain skills
 ./setup.sh --target ~/Projects/my-app
 
-# Or install into the current directory
-./setup.sh
-
 # Preview changes first
-./setup.sh --target ~/Projects/my-app --dry-run
+./setup.sh --target ~/Projects/my-app --domains typescript --dry-run
 ```
 
 The script clones the repo into a temp directory, copies the configs, and cleans up automatically.
