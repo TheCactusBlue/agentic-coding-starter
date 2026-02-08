@@ -6,7 +6,7 @@ Install the skills, agents, and settings from this starter repo into your own pr
 
 ```bash
 # Clone the starter repo (if you haven't)
-git clone https://github.com/your-user/agentic-coding-starter.git
+git clone https://github.com/TheCactusBlue/agentic-coding-starter.git
 cd agentic-coding-starter
 
 # Install into your project
