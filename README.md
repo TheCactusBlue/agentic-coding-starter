@@ -1,4 +1,4 @@
-# Agentic Coding Starter
+# Agentic Evolution
 
 Just some opinionated sets of skills and subagents that I personally find useful for using Claude Code.
 
@@ -12,7 +12,7 @@ Just some opinionated sets of skills and subagents that I personally find useful
 ## Setup
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/TheCactusBlue/agentic-coding-starter/main/setup.sh -o setup.sh
+curl -fsSL https://raw.githubusercontent.com/TheCactusBlue/agentic-evolution/main/setup.sh -o setup.sh
 chmod +x setup.sh
 ./setup.sh --target ~/Projects/my-app
 ```
