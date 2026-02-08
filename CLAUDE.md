@@ -27,6 +27,7 @@ An opinionated collection of Claude Code skills, agents, and language convention
 │   ├── refactor/       # /refactor — incremental, test-gated refactoring
 │   ├── commit/         # /commit — conventional commit, auto-push, no attribution footer
 │   ├── create-pr/      # /create-pr — PR via gh CLI, base branch is `dev` not `main`
+│   ├── rebase/          # /rebase — rebase onto upstream with guided conflict resolution
 │   ├── learn/          # /learn — capture knowledge into new/existing skills
 │   ├── domain-builder/ # /domain-builder — generate domain skills from codebase + research
 │   ├── start/          # /start — session bootstrap from handoff notes
