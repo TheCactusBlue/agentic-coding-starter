@@ -65,6 +65,12 @@ What this skill covers and when to use it.
 The actual guidance, patterns, examples, etc.
 ```
 
+## When to Use `/domain-builder` Instead
+
+If the user wants to create a comprehensive `domain:*` convention skill from scratch — especially for a language or framework they're adopting — use `/domain-builder` instead. It does codebase analysis, web research, and generates the full 6-section domain skill format.
+
+Use `/learn` for incremental updates to existing domain skills (e.g., "we decided to use vitest instead of jest") or for non-domain knowledge (workflows, patterns, project-specific guidance).
+
 ## Guidelines
 
 - **Keep skills focused** - One skill per domain/topic

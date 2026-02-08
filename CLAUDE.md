@@ -28,6 +28,7 @@ An opinionated collection of Claude Code skills, agents, and language convention
 │   ├── commit/         # /commit — conventional commit, auto-push, no attribution footer
 │   ├── create-pr/      # /create-pr — PR via gh CLI, base branch is `dev` not `main`
 │   ├── learn/          # /learn — capture knowledge into new/existing skills
+│   ├── domain-builder/ # /domain-builder — generate domain skills from codebase + research
 │   ├── start/          # /start — session bootstrap from handoff notes
 │   ├── handoff/        # /handoff — session capture for /start to read later
 │   ├── domain:typescript/
